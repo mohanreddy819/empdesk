@@ -41,7 +41,7 @@ jobs:
               id: meta
               uses: docker/metadata-action@v5
               with:
-                images: mohanreddy819/testBuild
+                images: mohanreddy819/testBuild-v2
             - name: pushing the image into the docker
               uses: docker/build-push-action@v5
               with:
