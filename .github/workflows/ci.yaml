@@ -8,16 +8,29 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # calling the workflow
+    uses: mohanreddy819/gha-pipelines/.github/workflows/ci-reusable.yaml@main
+    with:
+      projectName: 'empdesk'
+      chckoutCode: true
+      goVersion: '1.24'
+      preBuildCommand: |
+        sudo apt-get update -y &&\
+        go mod tidy
+      buildCommand: |
+        go build ./...
+      testCommand: |
+        go test coverprofile=coverage.out ./... 
+    # runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    # steps:
+    #   - name: Checkout code
+    #     uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.21'
+    #   - name: Set up Go
+    #     uses: actions/setup-go@v5
+    #     with:
+    #       go-version: '1.21'
 
       - name: Cache Go modules
         id: cache-go-modules
@@ -30,8 +43,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: Build
-        run: go build -v ./...
+      # - name: Build
+      #   run: go build -v ./...
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
