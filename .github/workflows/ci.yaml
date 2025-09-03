@@ -14,7 +14,9 @@ jobs:
       checkoutCode: true
       goVersion: "1.21"
       cacheRequired: true
-      preBuildCommand: "echo Pre-build steps here"
+      preBuildCommand: |
+        sudo apt-get update -y && \
+        go mod tidy
       buildCommand: "go build ./..."
       testCommand: "go test ./..." 
     # runs-on: ubuntu-latest
